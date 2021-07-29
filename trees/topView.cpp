@@ -17,20 +17,12 @@ node* createNode(int data) {
 	return newNode;
 }
 
-void bfs(node* root) {
-	if(root == NULL) return;
+void topView(node* root, int &leftDepth, int &rightDepth, int level) {
+	if(!root) return;
 
-	queue<node*> q;
-	q.push(root);
-
-	while(!q.empty()) {
-		node* temp = q.front();
-		q.pop();
-
-		if(temp->left) q.push(temp->left);
-		if(temp->right) q.push(temp->right);
-		cout << temp->data << " ";		
-	}
+	
+	topView(root->left, leftDepth, rightDepth, level+1);
+	topView(root->right, leftDepth, rightDepth, level+1);
 }
 
 int main() {
@@ -42,7 +34,7 @@ int main() {
 	root->right->left = createNode(78);
 	root->right->right = createNode(89);
 	
-	bfs(root);
+	
 	cout << endl;
 	return 0;
 }

@@ -17,19 +17,18 @@ node* createNode(int data) {
 	return newNode;
 }
 
-void bfs(node* root) {
-	if(root == NULL) return;
-
-	queue<node*> q;
-	q.push(root);
-
+void level_bfs(node* root) {
+	if(!root) return;
+	queue<pair<node*, int>> q;
+	node* curr = root;
+	q.push({root, 0});
 	while(!q.empty()) {
-		node* temp = q.front();
+		pair<node*, int> temp = q.front();
 		q.pop();
+		if(temp.first->left) q.push({ temp.first->left, temp.second+1 });
+		if(temp.first->right) q.push({ temp.first->right, temp.second+1 });
 
-		if(temp->left) q.push(temp->left);
-		if(temp->right) q.push(temp->right);
-		cout << temp->data << " ";		
+		cout << temp.first->data << " " << temp.second << endl;
 	}
 }
 
@@ -42,7 +41,7 @@ int main() {
 	root->right->left = createNode(78);
 	root->right->right = createNode(89);
 	
-	bfs(root);
+	level_bfs(root);
 	cout << endl;
 	return 0;
 }

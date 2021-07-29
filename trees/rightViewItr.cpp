@@ -17,19 +17,30 @@ node* createNode(int data) {
 	return newNode;
 }
 
-void bfs(node* root) {
-	if(root == NULL) return;
+void rightView(node* root) {
+	if(!root) return;
 
 	queue<node*> q;
+	node* specialNode = createNode(99999);
+	q.push(specialNode);
 	q.push(root);
 
 	while(!q.empty()) {
+		int flag = 0;
 		node* temp = q.front();
 		q.pop();
 
-		if(temp->left) q.push(temp->left);
-		if(temp->right) q.push(temp->right);
-		cout << temp->data << " ";		
+		if(temp->data == 99999){
+			if(q.empty()) break;
+			temp = q.front();
+			q.pop();
+			cout << temp->data << " ";
+			flag = 1;
+		}
+
+		if(flag) q.push(specialNode);
+		if(temp->left) q.push(temp->right);
+		if(temp->right) q.push(temp->left);
 	}
 }
 
@@ -42,7 +53,7 @@ int main() {
 	root->right->left = createNode(78);
 	root->right->right = createNode(89);
 	
-	bfs(root);
+	rightView(root);
 	cout << endl;
 	return 0;
 }

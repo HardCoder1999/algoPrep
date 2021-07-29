@@ -17,21 +17,27 @@ node* createNode(int data) {
 	return newNode;
 }
 
-void bfs(node* root) {
-	if(root == NULL) return;
+void postorder(node* root) {
+	if(!root) return;
+	stack<node*> s1, s2;
+	node* curr = root;
+	s1.push(curr);
 
-	queue<node*> q;
-	q.push(root);
+	while(!s1.empty()) {
+		node *temp = s1.top();
+		s2.push(temp);
+		s1.pop();
 
-	while(!q.empty()) {
-		node* temp = q.front();
-		q.pop();
+		if(temp->left) s1.push(temp->left);
+		if(temp->right) s1.push(temp->right);
+	}
 
-		if(temp->left) q.push(temp->left);
-		if(temp->right) q.push(temp->right);
-		cout << temp->data << " ";		
+	while(!s2.empty()){
+		cout << s2.top()->data << " ";
+		s2.pop();
 	}
 }
+
 
 int main() {
 	node* root = createNode(23);
@@ -42,7 +48,7 @@ int main() {
 	root->right->left = createNode(78);
 	root->right->right = createNode(89);
 	
-	bfs(root);
+	postorder(root);
 	cout << endl;
 	return 0;
 }

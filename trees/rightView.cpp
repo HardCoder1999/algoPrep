@@ -9,6 +9,17 @@ public:
 	node* right;
 };
 
+void rightView(node* root, int &currHeight, int level) {
+	if(!root) return;
+
+	if(currHeight < level) {
+		cout << root->data << " ";
+		currHeight = level;
+	}
+	rightView(root->right, currHeight, level+1);
+	rightView(root->left, currHeight, level+1);
+}
+
 node* createNode(int data) {
 	node* newNode = new node();
 
@@ -17,21 +28,7 @@ node* createNode(int data) {
 	return newNode;
 }
 
-void bfs(node* root) {
-	if(root == NULL) return;
 
-	queue<node*> q;
-	q.push(root);
-
-	while(!q.empty()) {
-		node* temp = q.front();
-		q.pop();
-
-		if(temp->left) q.push(temp->left);
-		if(temp->right) q.push(temp->right);
-		cout << temp->data << " ";		
-	}
-}
 
 int main() {
 	node* root = createNode(23);
@@ -42,7 +39,8 @@ int main() {
 	root->right->left = createNode(78);
 	root->right->right = createNode(89);
 	
-	bfs(root);
+	int currHeight = 0;
+	rightView(root, currHeight, 1);
 	cout << endl;
 	return 0;
 }
